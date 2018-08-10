@@ -1,5 +1,3 @@
-import java.awt.desktop.SystemSleepEvent;
-import java.text.CollationElementIterator;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -125,49 +123,5 @@ public class RunningWithBunnies {
                 result[i] = current_winner.get(i) - 1;
             return result;
         }
-    }
-
-    public static void main(String[] args)
-    {
-//        int[][] times = {
-//                {0, 2, 2, 2, -1},
-//                {9, 0, 2, 2, -1},
-//                {9, 3, 0, 2, -1},
-//                {9, 3, 2, 0, -1},
-//                {9, 3, 2, 2, 0}
-//        };
-//
-//        int[] answer1 = answer(times, 1);
-
-        int[][] case3 = {{0, 2, 2, 2, -1},
-        {9, 0, 2, 2, 0},
-        {9, 3, 0, 2, 0},
-        {9, 3, 2, 0, 0},
-        {-1, 3, 2, 2, 0}};
-
-        int[] case3_ans = answer(case3, -500);
-        System.out.print("Expected: [0, 1, 2]\nCalculated: [");
-        for (int i = 0; i < case3_ans.length; ++i)
-        {
-            System.out.print(case3_ans[i]);
-            System.out.print(", ");
-        }
-        System.out.println("]");
-
-
-        int[][] case10 = {{0, 10, 10, 1, 10},
-                {10, 0, 10, 10, 1},
-                {10, 1, 0, 10, 10},
-                {10, 10, 1, 0, 10},
-                {1, 10, 10, 10, 0}
-        };
-        int[] case10_ans = answer(case10, 6);
-        System.out.print("Expected: [0, 1, 2]\nCalculated: [");
-        for (int i = 0; i < case10_ans.length; ++i)
-        {
-            System.out.print(case10_ans[i]);
-            System.out.print(", ");
-        }
-        System.out.println("]");
     }
 }
