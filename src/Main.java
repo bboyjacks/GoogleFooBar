@@ -47,6 +47,24 @@ public class Main {
         PrintInfo("3. Expected: [0, 1, 2]\n\tCalculated: [", case10_ans);
     }
 
+    private static void DistractTheGuards()
+    {
+        int size = 6;
+        int[] test = new int[]{13, 3, 7, 1};
+//        Random random = new Random();
+//        int big_int = (int)Math.pow(2, 30);
+//        for (int i = 0; i < size; ++i)
+//        {
+////            test[i] = i + 1;
+//            test[i] = random.nextInt((big_int - 1) + 1) + 1;
+//        }
+        final long startTime = System.currentTimeMillis();
+        int answer = DistractTheGuards.answer(test);
+        final long endTime = System.currentTimeMillis();
+        System.out.println("Answer is: " + answer);
+        System.out.println("Total execution time: " + (endTime - startTime));
+    }
+
     private static void PrintMatrix(int[][] matrix)
     {
         if (matrix.length < 1)
@@ -69,19 +87,6 @@ public class Main {
 
     public static void main(String[] args)
     {
-        int size = 6;
-        int[] test = new int[]{13, 3, 7, 1};
-//        Random random = new Random();
-//        int big_int = (int)Math.pow(2, 30);
-//        for (int i = 0; i < size; ++i)
-//        {
-////            test[i] = i + 1;
-//            test[i] = random.nextInt((big_int - 1) + 1) + 1;
-//        }
-        final long startTime = System.currentTimeMillis();
-        int answer = DistractTheGuards.answer(test);
-        final long endTime = System.currentTimeMillis();
-        System.out.println("Answer is: " + answer);
-        System.out.println("Total execution time: " + (endTime - startTime));
+
     }
 }

@@ -23,42 +23,20 @@ public class DistractTheGuards {
         return Integer.bitCount(first / d + second / d) != 1;
     }
 
-    private static int NChooseR(int n, int r)
+    public static void GenWeights(int[][] graph, int[] banana_list)
     {
-        if (r > n)
-            return 0;
-
-        if (n == r)
-            return 1;
-
-        if (n < 1 || r < 1)
-            return 0;
-
-        BigInteger n_fac = BigInteger.valueOf(1);
-        for (int i = n; i > r; --i)
+        for (int i = 0; i < graph.length; ++i)
         {
-            n_fac = n_fac.multiply(BigInteger.valueOf(i));
-        }
-
-        BigInteger n_fac_minus_r = BigInteger.valueOf(1);
-        for (int i = 1; i <= n - r; i++)
-        {
-            n_fac_minus_r = n_fac_minus_r.multiply(BigInteger.valueOf(i));
-        }
-
-        BigInteger result = n_fac.divide(n_fac_minus_r);
-        return result.intValue();
-    }
-
-    private static void GenPairs(int[][] pairs, int n)
-    {
-        int index = 0;
-        for (int i = 0; i < n; ++i)
-        {
-            for (int j = i + 1; j < n; ++j)
+            for (int j = 0; j < graph.length; ++j)
             {
-                pairs[index][0] = i;
-                pairs[index++][1] = j;
+                if (IsPairLoop(banana_list[i], banana_list[j]))
+                {
+                    graph[i][j] = Integer.MAX_VALUE;
+                }
+                else
+                {
+                    graph[i][j] = 0;
+                }
             }
         }
     }
@@ -71,25 +49,17 @@ public class DistractTheGuards {
         if (n == 1)
             return 1;
 
-        int[][] pairs = new int[NChooseR(n, 2)][2];
-        GenPairs(pairs, n);
+        int[][] graph = new int[n][n];
+        GenWeights(graph, banana_list);
 
-        for (int i = 0; i < pairs.length; ++i)
+        for (int i = 0; i < banana_list.length; ++i)
         {
-            int f_i = pairs[i][0];
-            int s_i = pairs[i][1];
-
-            boolean is_loop_f = IsPairLoop(banana_list[f_i], banana_list[s_i]);
-            if (is_loop_f)
+            for (int j = 0; j < banana_list.length; ++j)
             {
-                n -= 2;
+                System.out.print(graph[i][j]);
+                System.out.print(" ");
             }
-
-            if (n <= 0)
-            {
-                n = 0;
-                break;
-            }
+            System.out.println();
         }
 
         return n;
