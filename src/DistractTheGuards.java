@@ -1,7 +1,5 @@
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
 import java.util.PriorityQueue;
 
 public class DistractTheGuards {
@@ -44,52 +42,86 @@ public class DistractTheGuards {
         }
     }
 
-    private static void Initialize(int[][] graph)
-    {
-        for (int i = 0; i < graph.length; ++i)
-        {
-            for (int j = 0; j < graph.length; ++j)
-            {
+    private static void Initialize(int[][] graph) {
+        for (int i = 0; i < graph.length; ++i) {
+            for (int j = 0; j < graph.length; ++j) {
                 graph[i][j] = Integer.MAX_VALUE;
             }
         }
     }
 
+
     private static class Node
     {
-        public int m_node = 0;
-        public int m_cost = 0;
-        public Node(int node, int cost)
+        public int id = 0;
+        public int cost = 0;
+        public int parent = 0;
+        public Node(int _id, int _cost, int _parent)
         {
-            m_node = node;
-            m_cost = cost;
+            id = _id;
+            cost = _cost;
+            parent = _parent;
         }
     }
 
-    private static ArrayList<Integer> GetShortestPath(int[][] graph)
+    private static int[] GetShortestPath(int[][] graph)
     {
         int n = graph.length;
         boolean[] visited = new boolean[n];
+        boolean[] in_p_q = new boolean[n];
+        int[] p_m = new int[n];
+
+        for (int i = 0; i < p_m.length; ++i)
+            p_m[i] = -1;
 
         int e = 5;
-        int infinity = Integer.MAX_VALUE;
+        int infinity = -1;
 
-        PriorityQueue<Node> p_q = new PriorityQueue<Node>((x, y) -> x.m_cost - y.m_cost);
-        p_q.add(new Node(0, 0));
-        while (!p_q.isEmpty() || p_q.peek().m_cost != e)
+        PriorityQueue<Node> p_q = new PriorityQueue<Node>((x, y) -> y.cost - x.cost);
+        p_q.add(new Node(0, 0, 0));
+        in_p_q[0] = true;
+
+        while (!p_q.isEmpty())
         {
             Node cur = p_q.remove();
+            p_m[cur.id] = cur.parent;
+            if (cur.id == e)
+                break;
+            visited[cur.id] = true;
+            in_p_q[cur.id] = false;
 
             for (int i = 0; i < n; ++i)
             {
-                if (i != cur.m_node && !visited[i] && graph[cur.m_node][i] != infinity)
+                if (i != cur.id && graph[cur.id][i] != infinity)
                 {
-                    p_q.add(new Node(i + cur.m_cost, cur.m_node));
-                    visited[i] = true;
+                    int new_cost = cur.cost + graph[cur.id][i];
+                    if (!visited[i])
+                    {
+                        if (in_p_q[i])
+                        {
+                            for (Node s_n : p_q)
+                            {
+                                if (s_n.id == i)
+                                {
+                                    if (new_cost > s_n.cost)
+                                    {
+                                        s_n.cost = new_cost;
+                                        s_n.parent = cur.id;
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            in_p_q[i] = true;
+                            p_q.add(new Node(i, new_cost, cur.id));
+                        }
+
+                    }
                 }
             }
         }
-        return new ArrayList<>();
+        return p_m;
     }
 
     public static int answer(int[] banana_list)
@@ -112,7 +144,9 @@ public class DistractTheGuards {
                 {-1,-1,-1,-1,-1,5,-1,-1,-1,4,4,0,-1},
                 {-1,-1,-1,2,-1,-1,-1,-1,-1,4,4,-1,0}
         };
-        
+
+        GetShortestPath(graph);
+
         return n;
     }
 }
